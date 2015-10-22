@@ -311,11 +311,49 @@ var CartItem = React.createClass({
 var Checkout = React.createClass({
   displayName: "Checkout",
 
+  caculateSubtotal: function caculateSubtotal() {
+    var subtotal = 0;
+    for (var productId in cartItems) {
+      if (cartItems.hasOwnProperty(productId)) {
+        subtotal += products[productId].price * cartItems[productId].quantity;
+      }
+    }
+    return subtotal;
+  },
+
   render: function render() {
     return React.createElement(
       "div",
       { className: "checkout" },
-      "Checkout"
+      React.createElement(
+        "div",
+        null,
+        React.createElement("hr", { className: "checkout__divider" }),
+        React.createElement(
+          "div",
+          { className: "checkout__line" },
+          React.createElement(
+            "div",
+            { className: "checkout__line__label" },
+            "Subtotal"
+          ),
+          React.createElement(
+            "div",
+            { className: "checkout__line__amount checkout__line__amount--strikeout" },
+            this.caculateSubtotal()
+          )
+        ),
+        React.createElement(
+          "a",
+          { className: "checkout__button" },
+          React.createElement("img", { className: "checkout__button__icon", src: "img/cart-icon.svg" }),
+          React.createElement(
+            "div",
+            { className: "checkout__button__label" },
+            "Checkout"
+          )
+        )
+      )
     );
   }
 });

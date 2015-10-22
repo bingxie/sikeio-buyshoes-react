@@ -225,9 +225,39 @@ let CartItem = React.createClass({
 });
 
 let Checkout = React.createClass({
+  caculateSubtotal() {
+    let subtotal = 0;
+    for (let productId in cartItems) {
+      if (cartItems.hasOwnProperty(productId)) {
+        subtotal += products[productId].price * cartItems[productId].quantity;
+      }
+    }
+    return subtotal;
+  },
+
   render() {
     return (
-      <div className="checkout">Checkout</div>
+      <div className="checkout">
+        <div>
+          <hr className="checkout__divider" />
+
+          <div className="checkout__line">
+            <div className="checkout__line__label">
+              Subtotal
+            </div>
+            <div className="checkout__line__amount checkout__line__amount--strikeout">
+              {this.caculateSubtotal()}
+            </div>
+          </div>
+
+          <a className="checkout__button">
+            <img className="checkout__button__icon" src="img/cart-icon.svg" />
+            <div className="checkout__button__label">
+              Checkout
+            </div>
+          </a>
+        </div>
+      </div>
     );
   }
 });
