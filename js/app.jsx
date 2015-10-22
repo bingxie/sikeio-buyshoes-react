@@ -65,7 +65,7 @@ let products = {
 };
 
 let App = React.createClass({
-  render: function() {
+  render() {
     return (
       <div className="site">
         <div className="bg">
