@@ -16,6 +16,7 @@
     "babel": "^5.8.23",
     "browser-sync": "^2.9.3",
     "clean-css": "^3.4.3",
+    "perfect-scrollbar": "^0.6.7",
     "postcss-cli": "^2.1.0",
     "postcss-import": "^7.0.0",
     "react": "^0.13.3"
