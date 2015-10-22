@@ -9,7 +9,7 @@ js:
 
 .PHONY: server
 server:
-	node_modules/.bin/browser-sync start --server --files='index.html,bundle/app.css,js/app.js'
+	node_modules/.bin/browser-sync start --server --files='index.html,bundle/app.css,js/app.js,build/app.js'
 
 
 .PHONY: clean
