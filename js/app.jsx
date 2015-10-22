@@ -39,9 +39,47 @@ let SiteTitle = React.createClass({
 
 let Products = React.createClass({
   render() {
+    let product = {
+      name: "Jameson Vulc",
+      price: 64.99,
+      imagePath: "img/shoes/jameson-vulc-brown-gum-orig.png",
+      gender: "man",
+    };
+
     return (
       <div className="products">
-        Products
+        <Product product={product}/>
+        <Product product={product}/>
+      </div>
+    );
+  }
+});
+
+let Product = React.createClass({
+  render() {
+    let {name,price,imagePath} = this.props.product;
+
+    return (
+      <div className="product">
+        <div className="product__display">
+          <div className="product__img-wrapper">
+            <img className="product__img" src={imagePath} />
+          </div>
+          <div classname="product__control">
+            <a className="product__add">
+              <img className="product__add__icon" src="img/cart-icon.svg" />
+            </a>
+          </div>
+          <div className="product__price">
+            {'$' + price}
+          </div>
+        </div>
+        <div className="product__description">
+          <div className="product__name">
+            {name}
+          </div>
+          <img className="product__heart" src="img/heart.svg" />
+        </div>
       </div>
     );
   }
