@@ -209,14 +209,34 @@ var cartItems = {
     quantity: 1
   },
 
+  "marana-x-hook-ups": {
+    id: "marana-x-hook-ups",
+    quantity: 2
+  },
+
   "scout-womens-6": {
     id: "scout-womens-6",
     quantity: 2
+  },
+
+  "scout-womens-coco-ho-5": {
+    id: "scout-womens-coco-ho-5",
+    quantity: 1
+  },
+
+  "jameson-2-womens-8": {
+    id: "jameson-2-womens-8",
+    quantity: 1
   }
 };
 
 var Cart = React.createClass({
   displayName: "Cart",
+
+  componentDidMount: function componentDidMount() {
+    var $content = React.findDOMNode(this.refs.cartContent);
+    Ps.initialize($content);
+  },
 
   render: function render() {
     var cartItemNodes = [];
@@ -236,7 +256,7 @@ var Cart = React.createClass({
       ),
       React.createElement(
         "div",
-        { className: "cart__content" },
+        { ref: "cartContent", className: "cart__content" },
         React.createElement(
           "h3",
           { className: "cart__title cart__title--spacer" },

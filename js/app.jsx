@@ -168,13 +168,33 @@ let cartItems = {
     quantity: 1,
   },
 
+  "marana-x-hook-ups": {
+    id: "marana-x-hook-ups",
+    quantity: 2,
+  },
+
   "scout-womens-6": {
     id: "scout-womens-6",
     quantity: 2,
   },
+
+  "scout-womens-coco-ho-5": {
+    id: "scout-womens-coco-ho-5",
+    quantity: 1,
+  },
+
+  "jameson-2-womens-8": {
+    id: "jameson-2-womens-8",
+    quantity: 1,
+  },
 };
 
 let Cart = React.createClass({
+  componentDidMount() {
+    let $content = React.findDOMNode(this.refs.cartContent);
+    Ps.initialize($content);
+  },
+
   render() {
     let cartItemNodes = [];
     for (let productId in cartItems) {
@@ -186,7 +206,7 @@ let Cart = React.createClass({
     return (
       <div className="cart">
         <h3 className="cart__title">Shopping Cart</h3>
-        <div className="cart__content">
+        <div ref="cartContent" className="cart__content">
           <h3 className="cart__title cart__title--spacer">Shopping Cart</h3>
           {cartItemNodes}
         </div>
