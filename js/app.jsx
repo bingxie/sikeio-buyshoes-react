@@ -151,10 +151,75 @@ let Product = React.createClass({
   }
 });
 
+let cartItems = {
+  "jameson-vulc": {
+    id: "jameson-vulc",
+    quantity: 1,
+  },
+
+  "scout-womens-6": {
+    id: "scout-womens-6",
+    quantity: 2,
+  },
+};
+
 let Cart = React.createClass({
   render() {
+    let cartItemNodes = [];
+    for (let productId in cartItems) {
+      if (cartItems.hasOwnProperty(productId)) {
+        cartItemNodes.push(<CartItem key={productId} item={cartItems[productId]} />);
+      }
+    }
+
     return (
-      <div className="cart">Cart</div>
+      <div className="cart">
+        <h3 className="cart__title">Shopping Cart</h3>
+        <div className="cart__content">
+          <h3 className="cart__title cart__title--spacer">Shopping Cart</h3>
+          {cartItemNodes}
+        </div>
+      </div>
+    );
+  }
+});
+
+let CartItem = React.createClass({
+  priceString(price, quantity) {
+    if (quantity > 1) {
+      return "$" + price + " x " + quantity;
+    } else {
+      return "$" + price;
+    }
+  },
+
+  render() {
+    let {id, quantity} = this.props.item;
+
+    return (
+      <div className="cart-item">
+        <div className="cart-item__top-part">
+          <div className="cart-item__image">
+            <img src={products[id].imagePath} />
+          </div>
+          <div className="cart-item__top-part__middle">
+            <div className="cart-item__title">
+              {products[id].name}
+            </div>
+            <div className="cart-item__price">
+              {this.priceString(products[id].price, quantity)}
+            </div>
+          </div>
+          <img className="cart-item__trash" src="img/trash-icon.svg" />
+        </div>
+        <div className="cart-item__qty">
+          <div className="adjust-qty">
+            <a className="adjust-qty__button">-</a>
+            <div className="adjust-qty__number">{quantity}</div>
+            <a className="adjust-qty__button">+</a>
+          </div>
+        </div>
+      </div>
     );
   }
 });

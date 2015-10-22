@@ -193,14 +193,117 @@ var Product = React.createClass({
   }
 });
 
+var cartItems = {
+  "jameson-vulc": {
+    id: "jameson-vulc",
+    quantity: 1
+  },
+
+  "scout-womens-6": {
+    id: "scout-womens-6",
+    quantity: 2
+  }
+};
+
 var Cart = React.createClass({
   displayName: "Cart",
 
   render: function render() {
+    var cartItemNodes = [];
+    for (var productId in cartItems) {
+      if (cartItems.hasOwnProperty(productId)) {
+        cartItemNodes.push(React.createElement(CartItem, { key: productId, item: cartItems[productId] }));
+      }
+    }
+
     return React.createElement(
       "div",
       { className: "cart" },
-      "Cart"
+      React.createElement(
+        "h3",
+        { className: "cart__title" },
+        "Shopping Cart"
+      ),
+      React.createElement(
+        "div",
+        { className: "cart__content" },
+        React.createElement(
+          "h3",
+          { className: "cart__title cart__title--spacer" },
+          "Shopping Cart"
+        ),
+        cartItemNodes
+      )
+    );
+  }
+});
+
+var CartItem = React.createClass({
+  displayName: "CartItem",
+
+  priceString: function priceString(price, quantity) {
+    if (quantity > 1) {
+      return "$" + price + " x " + quantity;
+    } else {
+      return "$" + price;
+    }
+  },
+
+  render: function render() {
+    var _props$item = this.props.item;
+    var id = _props$item.id;
+    var quantity = _props$item.quantity;
+
+    return React.createElement(
+      "div",
+      { className: "cart-item" },
+      React.createElement(
+        "div",
+        { className: "cart-item__top-part" },
+        React.createElement(
+          "div",
+          { className: "cart-item__image" },
+          React.createElement("img", { src: products[id].imagePath })
+        ),
+        React.createElement(
+          "div",
+          { className: "cart-item__top-part__middle" },
+          React.createElement(
+            "div",
+            { className: "cart-item__title" },
+            products[id].name
+          ),
+          React.createElement(
+            "div",
+            { className: "cart-item__price" },
+            this.priceString(products[id].price, quantity)
+          )
+        ),
+        React.createElement("img", { className: "cart-item__trash", src: "img/trash-icon.svg" })
+      ),
+      React.createElement(
+        "div",
+        { className: "cart-item__qty" },
+        React.createElement(
+          "div",
+          { className: "adjust-qty" },
+          React.createElement(
+            "a",
+            { className: "adjust-qty__button" },
+            "-"
+          ),
+          React.createElement(
+            "div",
+            { className: "adjust-qty__number" },
+            quantity
+          ),
+          React.createElement(
+            "a",
+            { className: "adjust-qty__button" },
+            "+"
+          )
+        )
+      )
     );
   }
 });
