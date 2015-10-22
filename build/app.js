@@ -130,9 +130,9 @@ var Products = React.createClass({
   render: function render() {
     var productNodes = [];
 
-    for (var productName in products) {
-      if (products.hasOwnProperty(productName)) {
-        productNodes.push(React.createElement(Product, { key: productName, product: products[productName] }));
+    for (var productId in products) {
+      if (products.hasOwnProperty(productId)) {
+        productNodes.push(React.createElement(Product, { key: productId, product: products[productId] }));
       }
     }
 
@@ -147,8 +147,22 @@ var Products = React.createClass({
 var Product = React.createClass({
   displayName: "Product",
 
+  productControl: function productControl(id) {
+    console.log(cartItems[id]);
+    if (cartItems[id]) {
+      return React.createElement(QuantityControl, { quantity: cartItems[id].quantity, variant: "gray" });
+    } else {
+      return React.createElement(
+        "a",
+        { className: "product__add" },
+        React.createElement("img", { className: "product__add__icon", src: "img/cart-icon.svg" })
+      );
+    }
+  },
+
   render: function render() {
     var _props$product = this.props.product;
+    var id = _props$product.id;
     var name = _props$product.name;
     var price = _props$product.price;
     var imagePath = _props$product.imagePath;
@@ -167,11 +181,7 @@ var Product = React.createClass({
         React.createElement(
           "div",
           { className: "product__control" },
-          React.createElement(
-            "a",
-            { className: "product__add" },
-            React.createElement("img", { className: "product__add__icon", src: "img/cart-icon.svg" })
-          )
+          this.productControl(id)
         ),
         React.createElement(
           "div",
@@ -284,25 +294,35 @@ var CartItem = React.createClass({
       React.createElement(
         "div",
         { className: "cart-item__qty" },
-        React.createElement(
-          "div",
-          { className: "adjust-qty" },
-          React.createElement(
-            "a",
-            { className: "adjust-qty__button" },
-            "-"
-          ),
-          React.createElement(
-            "div",
-            { className: "adjust-qty__number" },
-            quantity
-          ),
-          React.createElement(
-            "a",
-            { className: "adjust-qty__button" },
-            "+"
-          )
-        )
+        React.createElement(QuantityControl, { quantity: quantity })
+      )
+    );
+  }
+});
+
+var QuantityControl = React.createClass({
+  displayName: "QuantityControl",
+
+  render: function render() {
+    var style = this.props.variant ? 'adjust-qty--' + this.props.variant : '';
+
+    return React.createElement(
+      "div",
+      { className: "adjust-qty " + style },
+      React.createElement(
+        "a",
+        { className: "adjust-qty__button" },
+        "-"
+      ),
+      React.createElement(
+        "div",
+        { className: "adjust-qty__number" },
+        this.props.quantity
+      ),
+      React.createElement(
+        "a",
+        { className: "adjust-qty__button" },
+        "+"
       )
     );
   }

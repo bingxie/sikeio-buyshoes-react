@@ -107,9 +107,9 @@ let Products = React.createClass({
   render() {
     let productNodes = [];
 
-    for (let productName in products) {
-      if (products.hasOwnProperty(productName)) {
-        productNodes.push(<Product key={productName} product={products[productName]} />);
+    for (let productId in products) {
+      if (products.hasOwnProperty(productId)) {
+        productNodes.push(<Product key={productId} product={products[productId]} />);
       }
     }
 
@@ -122,8 +122,21 @@ let Products = React.createClass({
 });
 
 let Product = React.createClass({
+  productControl(id) {
+    console.log(cartItems[id]);
+    if(cartItems[id]) {
+      return (<QuantityControl quantity={cartItems[id].quantity} variant="gray" />);
+    } else {
+      return (
+        <a className="product__add">
+          <img className="product__add__icon" src="img/cart-icon.svg"/>
+        </a>
+      );
+    }
+  },
+
   render() {
-    let {name,price,imagePath} = this.props.product;
+    let {id,name,price,imagePath} = this.props.product;
 
     return (
       <div className="product">
@@ -132,9 +145,7 @@ let Product = React.createClass({
             <img className="product__img" src={imagePath} />
           </div>
           <div className="product__control">
-            <a className="product__add">
-              <img className="product__add__icon" src="img/cart-icon.svg" />
-            </a>
+            {this.productControl(id)}
           </div>
           <div className="product__price">
             {'$' + price}
@@ -213,12 +224,22 @@ let CartItem = React.createClass({
           <img className="cart-item__trash" src="img/trash-icon.svg" />
         </div>
         <div className="cart-item__qty">
-          <div className="adjust-qty">
-            <a className="adjust-qty__button">-</a>
-            <div className="adjust-qty__number">{quantity}</div>
-            <a className="adjust-qty__button">+</a>
-          </div>
+          <QuantityControl quantity={quantity} />
         </div>
+      </div>
+    );
+  }
+});
+
+let QuantityControl = React.createClass({
+  render() {
+    let style = this.props.variant ? 'adjust-qty--'+this.props.variant : '';
+
+    return (
+      <div className={"adjust-qty " + style}>
+        <a className="adjust-qty__button">-</a>
+        <div className="adjust-qty__number">{this.props.quantity}</div>
+        <a className="adjust-qty__button">+</a>
       </div>
     );
   }
